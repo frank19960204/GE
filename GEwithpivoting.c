@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 
 
 float linearsystem[5][5] = {{1.0/1.0,1.0/2.0,1.0/3.0,1.0/4.0,1.0/5.0},
@@ -79,9 +80,15 @@ void backward(){
 int main(){
 	forward();
 	backward();
+	float diff = 0.0;
 	for(int i = 0;i<5;i++){
 		printf("x%d:%f\n",i,answer[i]);
 	}
+	for(int i = 0;i<5;i++){
+		diff += ((1.0 - answer[i]) * (1.0 - answer[i]));
+	}
+	diff = sqrtf(diff);
+	printf("2-norm of difference: %f\n\n",diff);
 }
 
 
