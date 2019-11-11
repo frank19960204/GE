@@ -4,16 +4,16 @@
 #include <math.h>
 
 
-float linearsystem[5][5] = {{1.0/1.0,1.0/2.0,1.0/3.0,1.0/4.0,1.0/5.0},
+double linearsystem[5][5] = {{1.0/1.0,1.0/2.0,1.0/3.0,1.0/4.0,1.0/5.0},
 						  	{1.0/2.0,1.0/3.0,1.0/4.0,1.0/5.0,1.0/6.0},
 						  	{1.0/3.0,1.0/4.0,1.0/5.0,1.0/6.0,1.0/7.0},
 						  	{1.0/4.0,1.0/5.0,1.0/6.0,1.0/7.0,1.0/8.0},
 						  	{1.0/5.0,1.0/6.0,1.0/7.0,1.0/8.0,1.0/9.0}};
-float coef[5] = {137.0/60.0,29.0/20.0,153.0/140.0,743.0/840.0,1879.0/2520.0};
-float answer[5] = {0.0,0.0,0.0,0.0,0.0};
+double coef[5] = {137.0/60.0,29.0/20.0,153.0/140.0,743.0/840.0,1879.0/2520.0};
+double answer[5] = {0.0,0.0,0.0,0.0,0.0};
 
 void swap(int a,int b){
-	float temp;
+	double temp;
 	for(int i = 0;i<5;i++){ 
  		temp = linearsystem[a][i];
  		linearsystem[a][i] = linearsystem[b][i];
@@ -50,13 +50,13 @@ void forward(){
 		pivoting(i);
 		for(int k = 0;k<5;k++){
 			for(int j = 0;j<5;j++){
-				printf("%f ",linearsystem[k][j]);
+				printf("%lf ",linearsystem[k][j]);
 			}
-			printf("| %f \n",coef[k]);	
+			printf("| %lf \n",coef[k]);	
 		}
 		printf("-----------------------------------------------------------------------\n");
 		for(int j = i+1;j<5;j++){
-			float alpha =  linearsystem[j][i]/linearsystem[i][i]; //alpha is first nonzero number divided by pivot
+			double alpha =  linearsystem[j][i]/linearsystem[i][i]; //alpha is first nonzero number divided by pivot
 			for(int k = i+1;k<5;k++){
 				linearsystem[j][k] -= linearsystem[i][k] * alpha;	
 			}
@@ -80,15 +80,15 @@ void backward(){
 int main(){
 	forward();
 	backward();
-	float diff = 0.0;
+	double diff = 0.0;
 	for(int i = 0;i<5;i++){
-		printf("x%d:%f\n",i,answer[i]);
+		printf("x%d:%lf\n",i,answer[i]);
 	}
 	for(int i = 0;i<5;i++){
 		diff += ((1.0 - answer[i]) * (1.0 - answer[i]));
 	}
-	diff = sqrtf(diff);
-	printf("2-norm of difference: %f\n\n",diff);
+	diff = sqrt(diff);
+	printf("2-norm of difference: %lf\n\n",diff);
 }
 
 
