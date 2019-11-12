@@ -4,36 +4,42 @@
 #include <math.h>
 
 
-double linearsystem[5][5] = {{1.0/1.0,1.0/2.0,1.0/3.0,1.0/4.0,1.0/5.0},
+double linearsystem1[5][5] = {{1.0/1.0,1.0/2.0,1.0/3.0,1.0/4.0,1.0/5.0},
 						  	{1.0/2.0,1.0/3.0,1.0/4.0,1.0/5.0,1.0/6.0},
 						  	{1.0/3.0,1.0/4.0,1.0/5.0,1.0/6.0,1.0/7.0},
 						  	{1.0/4.0,1.0/5.0,1.0/6.0,1.0/7.0,1.0/8.0},
 						  	{1.0/5.0,1.0/6.0,1.0/7.0,1.0/8.0,1.0/9.0}};
-double coef[5] = {137.0/60.0,29.0/20.0,153.0/140.0,743.0/840.0,1879.0/2520.0};
+double linearsystem2[5][5] = {{1.0,2.0,3.0,4.0,5.0},
+						  	  {200.0,1.0,1.0,2.0,3.0},
+						  	  {1.0,2.0,1000.0,1.0,1.0},
+						  	  {1.0,1.0,1.0,1.0,1.0},
+						  	  {5.0,6.0,7.0,8.0,9.0}};
+double coef1[5] = {137.0/60.0,29.0/20.0,153.0/140.0,743.0/840.0,1879.0/2520.0};
+double coef2[5] = {15.0,207.0,1005.0,5.0,35.0};
 double answer[5] = {0.0,0.0,0.0,0.0,0.0};
 
 void swap(int a,int b){
 	double temp;
 	for(int i = 0;i<5;i++){ 
- 		temp = linearsystem[a][i];
- 		linearsystem[a][i] = linearsystem[b][i];
- 		linearsystem[b][i] = temp;
+ 		temp = linearsystem2[a][i];
+ 		linearsystem2[a][i] = linearsystem2[b][i];
+ 		linearsystem2[b][i] = temp;
  	}
- 	temp = coef[a];
- 	coef[a] = coef[b];
- 	coef[b] = temp;
+ 	temp = coef2[a];
+ 	coef2[a] = coef2[b];
+ 	coef2[b] = temp;
 }
 
 void pivoting(int a){
 	int biggest = a;
 	for(int i = a;i<5;i++){
-		if(linearsystem[i][a]>=0 || linearsystem[biggest][a]>=0){
-			if(linearsystem[i][a]>linearsystem[biggest][a]){
+		if(linearsystem2[i][a]>=0 || linearsystem2[biggest][a]>=0){
+			if(linearsystem2[i][a]>linearsystem2[biggest][a]){
 				biggest = i;
 			}
 		}
 		else{
-			if(linearsystem[i][a]<linearsystem[biggest][a]){
+			if(linearsystem2[i][a]<linearsystem2[biggest][a]){
 				biggest = i;
 			}
 		}
@@ -50,17 +56,17 @@ void forward(){
 		pivoting(i);
 		for(int k = 0;k<5;k++){
 			for(int j = 0;j<5;j++){
-				printf("%lf ",linearsystem[k][j]);
+				printf("%lf ",linearsystem2[k][j]);
 			}
-			printf("| %lf \n",coef[k]);	
+			printf("| %lf \n",coef2[k]);	
 		}
 		printf("-----------------------------------------------------------------------\n");
 		for(int j = i+1;j<5;j++){
-			double alpha =  linearsystem[j][i]/linearsystem[i][i]; //alpha is first nonzero number divided by pivot
+			double alpha =  linearsystem2[j][i]/linearsystem2[i][i]; //alpha is first nonzero number divided by pivot
 			for(int k = i+1;k<5;k++){
-				linearsystem[j][k] -= linearsystem[i][k] * alpha;	
+				linearsystem2[j][k] -= linearsystem2[i][k] * alpha;	
 			}
-			coef[j] -= coef[i] * alpha;
+			coef2[j] -= coef2[i] * alpha;
 		}
 	}
 }
@@ -68,9 +74,9 @@ void forward(){
 void backward(){
 	for(int i = 4;i>=0;i--){
 		for(int j = 4;j>i;j--){
-			coef[i] -= linearsystem[i][j]*answer[i+1];
+			coef2[i] -= linearsystem2[i][j]*answer[i+1];
 		}
-		answer[i] = coef[i]/linearsystem[i][i];	
+		answer[i] = coef2[i]/linearsystem2[i][i];	
 
 	}
 }
